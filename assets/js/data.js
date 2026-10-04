@@ -67,12 +67,23 @@ const defaultPortfolioData = {
 
 /* Load/Save helpers */
 const DATA_KEY = "portfolio_data_v1";
-const API_DATA_URL = "./data/portfolio.json";
+const API_DATA_URL = "/.netlify/functions/load-data";
 const API_SAVE_URL = "/.netlify/functions/save-data";
 
 async function loadPortfolioData() {
-  // Local edits are intentionally preferred so admin changes appear immediately
-  // in the same browser, even when the static host cannot write files.
+  try {
+    const res = await fetch(API_DATA_URL, { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.site) {
+        savePortfolioDataLocal(data);
+        return data;
+      }
+    }
+  } catch (e) {
+    // Fall back to a cached copy when shared storage is temporarily unavailable.
+  }
+
   try {
     const local = localStorage.getItem(DATA_KEY);
     if (local) {
@@ -81,16 +92,6 @@ async function loadPortfolioData() {
     }
   } catch (e) {
     // Ignore malformed or unavailable browser storage.
-  }
-
-  try {
-    const res = await fetch(API_DATA_URL, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.site) return data;
-    }
-  } catch (e) {
-    // Fall through to defaults when the static data file is unavailable.
   }
 
   return JSON.parse(JSON.stringify(defaultPortfolioData));
