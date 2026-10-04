@@ -72,7 +72,7 @@ const API_SAVE_URL = "/.netlify/functions/save-data";
 
 async function loadPortfolioData() {
   try {
-    const res = await fetch(API_DATA_URL, { cache: "no-store" });
+    const res = await fetch(`${API_DATA_URL}?t=${Date.now()}`, { cache: "no-store", headers: { Accept: "application/json" } });
     if (res.ok) {
       const data = await res.json();
       if (data && data.site) {
