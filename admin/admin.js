@@ -3,8 +3,8 @@
   "use strict";
 
   const DATA_KEY = "portfolio_data_v1";
-  const LOAD_URL = "../.netlify/functions/load-data";
-  const SAVE_URL = "../.netlify/functions/save-data";
+  const LOAD_URL = "/.netlify/functions/load-data";
+  const SAVE_URL = "/.netlify/functions/save-data";
   const PASSWORD_KEY = "portfolio_admin_password_v1";
   const SESSION_KEY = "portfolio_admin_session_v1";
   const DEFAULTS = {
@@ -45,7 +45,10 @@
     let remoteData = null;
     try {
       const response = await fetch(LOAD_URL, { cache: "no-store" });
-      if (response.ok) remoteData = await response.json();
+      if (response.ok) {
+        const candidate = await response.json();
+        if (candidate && candidate.site) remoteData = candidate;
+      }
     } catch {
       remoteData = null;
     }
