@@ -44,7 +44,7 @@
   document.addEventListener("DOMContentLoaded", async () => {
     let remoteData = null;
     try {
-      const response = await fetch(LOAD_URL, { cache: "no-store" });
+      const response = await fetch(`${LOAD_URL}?t=${Date.now()}`, { cache: "no-store", headers: { Accept: "application/json" } });
       if (response.ok) {
         const candidate = await response.json();
         if (candidate && candidate.site) remoteData = candidate;

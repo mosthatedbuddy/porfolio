@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   try { payload = JSON.parse(event.body || "{}"); } catch { return json(400, { error: "Invalid JSON body" }); }
   if (!isValidPortfolio(payload)) return json(400, { error: "Invalid portfolio data" });
   try {
-    const rows = await supabaseRequest("portfolio_content", {
+    const rows = await supabaseRequest("portfolio_content?on_conflict=id", {
       method: "POST",
       headers: { Prefer: "resolution=merge-duplicates,return=representation" },
       body: JSON.stringify({ id: "main", payload, updated_at: new Date().toISOString() }),
