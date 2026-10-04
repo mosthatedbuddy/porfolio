@@ -1,0 +1,60 @@
+{
+  "site": {
+    "title": "ADAM EL IDRISSI | Web Developer",
+    "name": "ADAM EL IDRISSI",
+    "role": "Web Developer",
+    "description": "I build clean, responsive, and user-friendly web experiences with a focus on performance and accessibility.",
+    "about": "Passionate web developer focused on building modern, performant websites. I enjoy turning ideas into clean, functional, and beautiful digital experiences.",
+    "email": "adam@example.com",
+    "github": "https://github.com/Adam-El-Idrissi",
+    "contactStatus": "Open to opportunities",
+    "accentColor": "#a855f7"
+  },
+  "skills": [
+    "HTML5",
+    "CSS3",
+    "JavaScript (ES6+)",
+    "Responsive Design",
+    "Git & GitHub",
+    "API Integration",
+    "UI/UX Basics",
+    "Performance Optimization"
+  ],
+  "projects": [
+    {
+      "id": "project-1",
+      "title": "Portfolio Website",
+      "description": "A modern, responsive portfolio built with clean code and smooth animations. Features dark theme and mobile-first design.",
+      "tags": ["HTML", "CSS", "JavaScript"],
+      "demoUrl": "#",
+      "repoUrl": "https://github.com/Adam-El-Idrissi",
+      "featured": true,
+      "icon": "fa-laptop-code"
+    },
+    {
+      "id": "project-2",
+      "title": "Landing Page",
+      "description": "Conversion-focused landing page with modern layouts, animations, and fully responsive across all devices.",
+      "tags": ["HTML", "CSS", "JavaScript"],
+      "demoUrl": "#",
+      "repoUrl": "https://github.com/Adam-El-Idrissi",
+      "featured": true,
+      "icon": "fa-window-maximize"
+    },
+    {
+      "id": "project-3",
+      "title": "Web App",
+      "description": "Interactive web application with clean UI, smooth UX, and focus on performance and accessibility.",
+      "tags": ["JavaScript", "API", "CSS"],
+      "demoUrl": "#",
+      "repoUrl": "https://github.com/Adam-El-Idrissi",
+      "featured": false,
+      "icon": "fa-code"
+    }
+  ],
+  "stats": {
+    "projects": "3+",
+    "experience": "1+",
+    "focus": "Clean"
+  }
+}

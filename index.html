@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADAM EL IDRISSI | Web Developer</title>
+  <meta name="description" content="Web Developer Portfolio - ADAM EL IDRISSI" />
+  <meta name="theme-color" content="#121212" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>A</text></svg>">
+</head>
+
+<body>
+  <div id="loader" class="loader">
+    <div class="loader__ring"></div>
+    <span>Loading...</span>
+  </div>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <nav class="nav" id="nav">
+    <div class="container nav__container">
+      <a href="#hero" class="nav__logo">AEI</a>
+      <ul class="nav__links">
+        <li><a href="#hero" class="nav__link active">Home</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+        <li><a href="#projects" class="nav__link">Projects</a></li>
+        <li><a href="#contact" class="nav__link">Contact</a></li>
+        <li><a href="./admin/" class="nav__link nav__link--admin"><i class="fas fa-lock"></i> Admin</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section id="hero" class="hero">
+      <div class="container hero__container">
+        <div class="hero__content">
+          <p class="hero__subtitle reveal">Hi, I'm</p>
+          <h1 class="hero__title reveal">ADAM EL IDRISSI</h1>
+          <h2 class="hero__role reveal">Web Developer</h2>
+          <p class="hero__desc reveal">
+            I build clean, responsive, and user-friendly web experiences with a focus on performance and
+            accessibility.
+          </p>
+          <div class="hero__cta reveal">
+            <a href="#projects" class="btn btn--primary">
+              <i class="fas fa-code"></i> View Projects
+            </a>
+            <a href="#contact" class="btn btn--ghost">
+              <i class="fas fa-envelope"></i> Get in Touch
+            </a>
+          </div>
+          <div class="hero__social reveal">
+            <a href="https://github.com/Adam-El-Idrissi" target="_blank" rel="noopener noreferrer"
+              class="social-link" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="mailto:adam@example.com" class="social-link" aria-label="Email">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero__visual reveal">
+          <div class="hero__orb"></div>
+          <div class="hero__card">
+            <div class="hero__card-inner">
+              <code>&lt;dev&gt;Adam&lt;/dev&gt;</code>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__scroll">
+        <a href="#about" aria-label="Scroll down">
+          <span></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about section">
+      <div class="container">
+        <h2 class="section__title reveal">About Me</h2>
+        <p class="section__subtitle reveal">A little bit about myself</p>
+
+        <div class="about__container">
+          <div class="about__content reveal">
+            <p id="aboutText">
+              Passionate web developer focused on building modern, performant websites. I enjoy turning ideas into
+              clean, functional, and beautiful digital experiences.
+            </p>
+            <div class="about__skills">
+              <h3>Skills</h3>
+              <div class="skills" id="skillsList"></div>
+            </div>
+          </div>
+          <div class="about__stats reveal">
+            <div class="stat">
+              <h3 id="statProjects">0+</h3>
+              <p>Projects</p>
+            </div>
+            <div class="stat">
+              <h3 id="statExperience">1+</h3>
+              <p>Years</p>
+            </div>
+            <div class="stat">
+              <h3 id="statFocus">Clean</h3>
+              <p>Code</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="projects section">
+      <div class="container">
+        <h2 class="section__title reveal">Projects</h2>
+        <p class="section__subtitle reveal">Some things I've built</p>
+        <div class="projects__filters reveal" id="projectFilters"></div>
+        <div class="projects__grid" id="projectsGrid"></div>
+        <div class="projects__empty hidden reveal" id="projectsEmpty">
+          <p>No projects yet. Add them in the admin panel.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact section">
+      <div class="container">
+        <h2 class="section__title reveal">Contact</h2>
+        <p class="section__subtitle reveal">Let's work together</p>
+
+        <div class="contact__container">
+          <div class="contact__info reveal">
+            <div class="contact__card">
+              <i class="fas fa-envelope"></i>
+              <h3>Email</h3>
+              <a href="mailto:adam@example.com" id="contactEmail">adam@example.com</a>
+            </div>
+            <div class="contact__card">
+              <i class="fab fa-github"></i>
+              <h3>GitHub</h3>
+              <a href="https://github.com/Adam-El-Idrissi" target="_blank" rel="noopener noreferrer"
+                id="contactGithub">Adam-El-Idrissi</a>
+            </div>
+            <div class="contact__card">
+              <i class="fas fa-paper-plane"></i>
+              <h3>Availability</h3>
+              <p id="contactStatus">Open to opportunities</p>
+            </div>
+          </div>
+
+          <form class="contact__form reveal" id="contactForm" netlify netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact" />
+            <p class="hidden">
+              <label>Don't fill this out: <input name="bot-field" /></label>
+            </p>
+            <div class="form__group">
+              <input type="text" name="name" placeholder="Your Name" required />
+              <label>Your Name</label>
+            </div>
+            <div class="form__group">
+              <input type="email" name="email" placeholder="Your Email" required />
+              <label>Your Email</label>
+            </div>
+            <div class="form__group">
+              <input type="text" name="subject" placeholder="Subject" required />
+              <label>Subject</label>
+            </div>
+            <div class="form__group form__group--textarea">
+              <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+              <label>Your Message</label>
+            </div>
+            <button type="submit" class="btn btn--primary">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+            <p class="form__status" id="formStatus"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__container">
+      <div class="footer__logo">ADAM EL IDRISSI</div>
+      <p class="footer__text">
+        © <span id="year"></span> ADAM EL IDRISSI. All rights reserved.
+      </p>
+      <div class="footer__social">
+        <a href="https://github.com/Adam-El-Idrissi" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="mailto:adam@example.com" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#hero" class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <script src="./assets/js/data.js"></script>
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
