@@ -79,9 +79,12 @@ async function loadPortfolioData() {
         savePortfolioDataLocal(data);
         return data;
       }
+    } else if (res.status === 404) {
+      // A confirmed empty remote store must not be replaced with stale device data.
+      return JSON.parse(JSON.stringify(defaultPortfolioData));
     }
   } catch (e) {
-    // Fall back to a cached copy when shared storage is temporarily unavailable.
+    // Fall back to a cached copy only when the network is unavailable.
   }
 
   try {
