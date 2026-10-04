@@ -3,6 +3,8 @@
   "use strict";
 
   const DATA_KEY = "portfolio_data_v1";
+  const LOAD_URL = "/.netlify/functions/load-data";
+  const SAVE_URL = "/.netlify/functions/save-data";
   const PASSWORD_KEY = "portfolio_admin_password_v1";
   const SESSION_KEY = "portfolio_admin_session_v1";
   const DEFAULTS = {
@@ -42,12 +44,16 @@
   document.addEventListener("DOMContentLoaded", async () => {
     let remoteData = null;
     try {
-      const response = await fetch("../data/portfolio.json", { cache: "no-store" });
-      if (response.ok) remoteData = await response.json();
+      const response = await fetch(LOAD_URL, { cache: "no-store" });
+      if (response.ok) {
+        const candidate = await response.json();
+        if (candidate && candidate.site) remoteData = candidate;
+      }
     } catch {
       remoteData = null;
     }
-    data = mergeData(getStoredData() || remoteData || DEFAULTS);
+    data = mergeData(remoteData || getStoredData() || DEFAULTS);
+    if (remoteData) localStorage.setItem(DATA_KEY, JSON.stringify(data));
     const configured = localStorage.getItem(PASSWORD_KEY);
     $("#setupForm")?.classList.toggle("hidden", Boolean(configured)); $("#loginForm")?.classList.toggle("hidden", !configured);
     if (localStorage.getItem(SESSION_KEY) === "authenticated") showAdmin();
@@ -59,6 +65,6 @@
     $$(".tab").forEach((tab) => tab.addEventListener("click", () => { $$(".tab").forEach((item) => item.classList.toggle("active", item === tab)); $$(".tab-content").forEach((content) => content.classList.toggle("active", content.id === `tab-${tab.dataset.tab}`)); }));
     $("#previewBtn")?.addEventListener("click", () => window.open("../", "_blank", "noopener,noreferrer"));
     $("#resetBtn")?.addEventListener("click", () => { if (!window.confirm("Reset all content to defaults?")) return; data = mergeData(window.defaultPortfolioData || DEFAULTS); fillForm(); });
-    $("#saveBtn")?.addEventListener("click", async () => { const button = $("#saveBtn"); setBusy(button, true); try { readForm(); persistLocal(); const response = await fetch("../data/portfolio.json", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); setStatus($("#saveStatus"), response.ok ? "Changes saved." : "Saved in this browser. Deploy the updated data file to publish.", response.ok ? "success" : "" ); } catch { persistLocal(); setStatus($("#saveStatus"), "Saved in this browser. Server publishing is unavailable in this preview."); } finally { setBusy(button, false, '<i class="fas fa-save"></i> Save Changes'); } });
+    $("#saveBtn")?.addEventListener("click", async () => { const button = $("#saveBtn"); setBusy(button, true); try { readForm(); persistLocal(); const response = await fetch(SAVE_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); if (!response.ok) throw new Error(await response.text()); const saved = await response.json(); data = mergeData(saved.data || data); persistLocal(); setStatus($("#saveStatus"), "Changes saved for every device.", "success"); } catch (error) { persistLocal(); setStatus($("#saveStatus"), `Shared save failed: ${error.message || "try again"}`, "error"); } finally { setBusy(button, false, '<i class="fas fa-save"></i> Save Changes'); } });
   });
 })();
