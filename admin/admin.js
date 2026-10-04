@@ -43,16 +43,19 @@
 
   document.addEventListener("DOMContentLoaded", async () => {
     let remoteData = null;
+    let remoteStoreEmpty = false;
     try {
       const response = await fetch(`${LOAD_URL}?t=${Date.now()}`, { cache: "no-store", headers: { Accept: "application/json" } });
       if (response.ok) {
         const candidate = await response.json();
         if (candidate && candidate.site) remoteData = candidate;
+      } else if (response.status === 404) {
+        remoteStoreEmpty = true;
       }
     } catch {
       remoteData = null;
     }
-    data = mergeData(remoteData || getStoredData() || DEFAULTS);
+    data = mergeData(remoteData || (remoteStoreEmpty ? null : getStoredData()) || DEFAULTS);
     if (remoteData) localStorage.setItem(DATA_KEY, JSON.stringify(data));
     const configured = localStorage.getItem(PASSWORD_KEY);
     $("#setupForm")?.classList.toggle("hidden", Boolean(configured)); $("#loginForm")?.classList.toggle("hidden", !configured);
