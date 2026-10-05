@@ -25,6 +25,10 @@ exports.handler = async function handler(event) {
     return json(200, { ok: true, data: row?.payload || data, updatedAt: row?.updated_at || null });
   } catch (error) {
     console.error("[v0] save-data failed", error.message, error.details || "");
-    return json(error.status === 404 ? 404 : 500, { error: "Unable to save portfolio data" });
+    const statusCode = error.status === 400 || error.status === 401 || error.status === 403 || error.status === 404 ? error.status : 500;
+    return json(statusCode, {
+      error: error.message || "Unable to save portfolio data",
+      code: error.details?.code || null,
+    });
   }
 };
