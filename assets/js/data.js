@@ -71,15 +71,19 @@ const API_DATA_URL = "/.netlify/functions/load-data";
 const API_SAVE_URL = "/.netlify/functions/save-data";
 
 async function loadPortfolioData() {
-  try {
-    // Try to fetch from API/JSON first
-    const res = await fetch(API_DATA_URL, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.site) return data;
+  const urls = [API_DATA_URL, "/api/load-data"];
+  for (const url of urls) {
+    try {
+      const res = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
+      const payload = await res.json();
+      const data = payload?.data?.site ? payload.data : payload;
+      if (res.ok && data?.site) {
+        savePortfolioDataLocal(data);
+        return data;
+      }
+    } catch (e) {
+      console.warn("[v0] portfolio load failed", url, e);
     }
-  } catch (e) {
-    // ignore
   }
 
   // Fallback to localStorage
