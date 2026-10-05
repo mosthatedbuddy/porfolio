@@ -67,8 +67,8 @@ const defaultPortfolioData = {
 
 /* Load/Save helpers */
 const DATA_KEY = "portfolio_data_v1";
-const API_DATA_URL = "./data/portfolio.json";
-const API_SAVE_URL = "/api/save-data"; // Netlify/Vercel function
+const API_DATA_URL = "/.netlify/functions/load-data";
+const API_SAVE_URL = "/.netlify/functions/save-data";
 
 async function loadPortfolioData() {
   try {
