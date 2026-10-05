@@ -16,7 +16,7 @@ exports.handler = async function handler(event) {
   const data = parseBody(event);
   if (!isPortfolioData(data)) return json(400, { error: "Invalid portfolio data" });
   try {
-    const rows = await supabaseRequest(TABLE, {
+    const rows = await supabaseRequest(`${TABLE}?on_conflict=id`, {
       method: "POST",
       headers: { Prefer: "resolution=merge-duplicates,return=representation" },
       body: JSON.stringify({ id: ROW_ID, payload: data, updated_at: new Date().toISOString() }),
