@@ -115,16 +115,26 @@ async function savePortfolioData(data) {
   // Save locally first
   savePortfolioDataLocal(data);
 
-  // Try to save via API (Netlify Functions)
-  try {
-    const res = await fetch(API_SAVE_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (res.ok) return { ok: true, method: "api" };
-    return { ok: false, method: "local", error: await res.text() };
-  } catch (e) {
-    return { ok: false, method: "local", error: e.message };
+  // Try both deployed API routes. Some hosts return an HTML fallback page for a missing
+  // function, so only treat a valid JSON response as an API response.
+  let lastError = "Unable to reach the portfolio database.";
+  for (const url of [API_SAVE_URL, "/api/save-data"]) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        cache: "no-store",
+        body: JSON.stringify(data),
+      });
+      const text = await res.text();
+      let payload;
+      try { payload = text ? JSON.parse(text) : null; } catch { payload = null; }
+      if (res.ok && payload?.ok) return { ok: true, method: "api", data: payload.data };
+      lastError = payload?.error || (text.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 180) || `Save failed (${res.status})`);
+      if (res.status !== 404 && payload) break;
+    } catch (e) {
+      lastError = e.message || lastError;
+    }
   }
+  return { ok: false, method: "local", error: lastError };
 }
