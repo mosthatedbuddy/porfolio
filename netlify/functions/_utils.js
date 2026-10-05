@@ -7,7 +7,7 @@ function env(name) {
 
 function supabaseConfig() {
   const url = env("SUPABASE_URL");
-  const key = env("SUPABASE_SERVICE_ROLE_KEY") || env("SUPABASE_SECRET_KEY");
+  const key = env("SUPABASE_SERVICE_ROLE_KEY") || env("SUPABASE_SECRET_KEY") || env("SUPBASE_SERVICE_ROLE_KEY0") || env("SUPBASE_SERVICE_ROLE_KEY1");
   if (!url || !key) throw new Error("Supabase server credentials are not configured");
   return { url: url.replace(/\/$/, ""), key };
 }
@@ -62,7 +62,8 @@ async function supabaseRequest(path, options = {}) {
   let payload = null;
   try { payload = text ? JSON.parse(text) : null; } catch { payload = text; }
   if (!response.ok) {
-    const error = new Error(`Supabase request failed (${response.status})`);
+    const detail = typeof payload === "string" ? payload : payload?.message || payload?.hint || payload?.details || payload?.error || "Unknown Supabase error";
+    const error = new Error(`Supabase request failed (${response.status}): ${detail}`);
     error.status = response.status;
     error.details = payload;
     throw error;
